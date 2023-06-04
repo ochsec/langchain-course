@@ -8,7 +8,7 @@
     "outDir": "dist",
     "lib": ["ES2022", "ES2022.Object", "DOM"],
     "target": "ES2022",
-    "module": "nodenext",
+    "module": "CommonJS",
     "sourceMap": true,
     "allowSyntheticDefaultImports": true,
     "baseUrl": "./src",
