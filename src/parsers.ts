@@ -1,4 +1,5 @@
 import { PromptTemplate } from "langchain";
+import { StructuredOutputParser } from "langchain/output_parsers";
 
 const customerReview = `\
 This leaf blower is pretty amazing.  It has four settings:\
@@ -30,9 +31,28 @@ price_value
 
 text: {text}`;
 
+const schema = StructuredOutputParser.fromNamesAndDescriptions({
+  gift: `Was the item purchased\
+      as a gift for someone else? \
+      Answer True if yes,\
+      False if not or unknown.`,
+  delivery_days: `How many days\
+      did it take for the product\
+      to arrive? If this \
+      information is not found,\
+      output -1.`,
+  price_value: `Extract any\
+      sentences about the value or \
+      price, and output them as a \
+      comma separated Python list.`,
+});
+
+const formatInstructions = schema.getFormatInstructions();
+
 const prompt = new PromptTemplate({
   template: reviewTemplate,
   inputVariables: ["text"],
+  partialVariables: { format_instructions: formatInstructions },
 });
 
 export const example = async () =>

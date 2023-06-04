@@ -15,4 +15,6 @@ const model = new OpenAI({
   const prompt = await example();
   const res1 = await model.call(prompt);
   console.log(res1);
+  const data = JSON.parse(res1);
+  console.log(data.gift);
 })();
