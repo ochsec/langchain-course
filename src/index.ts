@@ -1,6 +1,8 @@
 import * as dotenv from "dotenv";
 import { OpenAI } from "langchain";
 
+import { example } from "./templates.ts";
+
 dotenv.config();
 
 const model = new OpenAI({
@@ -8,8 +10,9 @@ const model = new OpenAI({
   openAIApiKey: process.env.OPENAI_API_KEY,
 });
 
-const res = await model.call(
-  "What's a good idea for an application to build with GPT-3?"
-);
+(async () => {
+  const exampleStr = await example();
+  const res = await model.call(exampleStr);
 
-console.log(res);
+  console.log(res);
+})();
