@@ -1,7 +1,7 @@
 import * as dotenv from "dotenv";
 import { OpenAI } from "langchain";
 
-import { example, example2 } from "./templates";
+import { example } from "./parsers";
 
 dotenv.config();
 
@@ -12,12 +12,7 @@ const model = new OpenAI({
 });
 
 (async () => {
-  const exampleStr = await example();
-  const exampleStr2 = await example2();
-  const res1 = await model.call(exampleStr);
-  console.log("Pirate English to polite English:");
+  const prompt = await example();
+  const res1 = await model.call(prompt);
   console.log(res1);
-  console.log("Rude English to Polite Pirate English:");
-  const res2 = await model.call(exampleStr2);
-  console.log(res2);
 })();
