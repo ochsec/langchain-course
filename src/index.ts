@@ -1,7 +1,7 @@
 import * as dotenv from "dotenv";
 import { OpenAI } from "langchain";
 
-import { example } from "./parsers";
+import { memory, createChainWithModel } from "./memory";
 
 dotenv.config();
 
@@ -12,9 +12,17 @@ const model = new OpenAI({
 });
 
 (async () => {
-  const prompt = await example();
-  const res1 = await model.call(prompt);
+  const chain = createChainWithModel(model, memory);
+  const res1 = await chain.call({
+    input: "Hi, my name is Chris",
+  });
   console.log(res1);
-  const data = JSON.parse(res1);
-  console.log(data.gift);
+  const res2 = await chain.call({
+    input: "What is 1+1?",
+  });
+  console.log(res2);
+  const res3 = await chain.call({
+    input: "What is my name?",
+  });
+  console.log(res3);
 })();
